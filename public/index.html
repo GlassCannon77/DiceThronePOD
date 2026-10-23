@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dice Throne Podcast</title>
+    <meta name="description" content="Listen live or catch up on every episode of the Dice Throne Podcast." />
+    <meta name="theme-color" content="#17122b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Dice Throne Podcast" href="/feed.xml" />
+    <meta property="og:title" content="Dice Throne Podcast" />
+    <meta property="og:description" content="Listen live or catch up on every episode." />
+    <meta property="og:image" content="/cover-600.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Grenze:wght@600;700&display=swap"
+    />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="brand">
+        <img src="/cover-600.jpg" alt="" width="48" height="48" />
+        <span class="brand-name" id="show-title">Dice Throne Podcast</span>
+      </div>
+      <a class="btn btn-quiet btn-small" id="spotify-top" href="#" target="_blank" rel="noopener" hidden>Listen on Spotify</a>
+    </header>
+
+    <main class="page">
+      <section class="stage" id="stage" data-state="off" aria-labelledby="stage-title">
+        <svg class="die" viewBox="0 0 120 120" aria-hidden="true">
+          <rect class="die-body" x="6" y="6" width="108" height="108" rx="24" />
+          <circle cx="34" cy="34" r="10" /><circle cx="60" cy="34" r="10" /><circle cx="86" cy="34" r="10" />
+          <circle cx="34" cy="60" r="10" /><circle cx="60" cy="60" r="10" /><circle cx="86" cy="60" r="10" />
+          <circle cx="34" cy="86" r="10" /><circle cx="60" cy="86" r="10" /><circle cx="86" cy="86" r="10" />
+        </svg>
+        <div>
+          <p class="status-line"><span class="status-dot"></span><span id="status-text">Off air</span></p>
+          <h1 id="stage-title">No live show right now</h1>
+          <p class="stage-copy" id="stage-copy">
+            When the show goes live, this page lights up. Catch up on episodes below.
+          </p>
+          <div class="stage-actions">
+            <button class="btn btn-ember btn-big" id="tune-btn" type="button" hidden>Tune in</button>
+            <button class="btn" id="unmute-btn" type="button" hidden>Tap to hear the show</button>
+            <button class="btn btn-quiet" id="leave-btn" type="button" hidden>Stop listening</button>
+            <span class="listener-count" id="listener-count"></span>
+          </div>
+          <p class="notice error" id="live-error" role="alert" hidden></p>
+        </div>
+        <p class="visually-hidden" aria-live="polite" id="live-announce"></p>
+      </section>
+
+      <section aria-labelledby="episodes-heading">
+        <div class="section-head">
+          <h2 id="episodes-heading">Episodes</h2>
+        </div>
+        <ol class="episodes" id="episodes"></ol>
+        <p class="empty" id="episodes-empty" hidden></p>
+      </section>
+
+      <section class="follow" aria-labelledby="follow-heading">
+        <h2 id="follow-heading">Follow the show</h2>
+        <p>Get every new episode in your podcast app as soon as it's out.</p>
+        <div class="follow-actions">
+          <a class="btn" id="spotify-link" href="#" target="_blank" rel="noopener" hidden>Follow on Spotify</a>
+          <button class="btn btn-quiet" id="copy-feed" type="button">Copy RSS link</button>
+        </div>
+        <p class="notice" id="copy-msg" role="status" hidden></p>
+      </section>
+    </main>
+
+    <div id="remote-audio" hidden></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client@2.22.4/dist/livekit-client.umd.js" defer></script>
+    <script type="module" src="/js/listen.js"></script>
+  </body>
+</html>

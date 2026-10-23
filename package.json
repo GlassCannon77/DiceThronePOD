@@ -1,0 +1,14 @@
+{
+  "name": "dice-throne-podcast",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Record, broadcast live, and publish podcast episodes to Spotify through an RSS feed.",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

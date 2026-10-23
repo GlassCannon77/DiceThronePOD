@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Studio · Dice Throne Podcast</title>
+    <meta name="theme-color" content="#17122b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Grenze:wght@600;700&display=swap"
+    />
+    <link rel="stylesheet" href="/css/site.css" />
+  </head>
+  <body>
+    <header class="studio-bar">
+      <div class="brand">
+        <img src="/cover-600.jpg" alt="" width="48" height="48" />
+        <span class="brand-name">Dice Throne <span>Studio</span></span>
+      </div>
+      <nav id="studio-nav" aria-label="Studio" hidden>
+        <a class="btn btn-quiet btn-small" href="/" target="_blank" rel="noopener">Open listener page</a>
+        <button class="btn btn-quiet btn-small" id="signout-btn" type="button">Sign out</button>
+      </nav>
+    </header>
+
+    <section class="panel signin" id="signin" aria-labelledby="signin-heading">
+      <h2 id="signin-heading">Host sign-in</h2>
+      <p class="panel-intro">Use the host password you set in Netlify.</p>
+      <form id="signin-form">
+        <div class="field">
+          <label for="password">Host password</label>
+          <input type="password" id="password" autocomplete="current-password" required />
+        </div>
+        <button class="btn" type="submit" id="signin-btn">Sign in</button>
+        <p class="notice error" id="signin-error" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <main class="studio" id="app" hidden>
+      <section class="panel span-all" id="setup-panel" aria-labelledby="setup-heading" hidden>
+        <h2 id="setup-heading">Finish setting up</h2>
+        <p class="panel-intro">Some settings are missing in Netlify. The README walks through each one.</p>
+        <ul class="checklist" id="checklist"></ul>
+      </section>
+
+      <section class="panel span-all" id="recover-panel" aria-labelledby="recover-heading" hidden>
+        <h2 id="recover-heading">Unsaved recordings</h2>
+        <p class="panel-intro">These were recorded in this browser but never published. Open one to publish or download it.</p>
+        <div id="recover-list"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="show-heading">
+        <h2 id="show-heading">The show</h2>
+        <p class="panel-intro">
+          Check your mic, then start the show. If a co-host joins live, wear headphones so their voice doesn't echo
+          into your mic.
+        </p>
+
+        <div class="mic-row">
+          <svg class="die" id="mic-die" viewBox="0 0 120 120" aria-hidden="true">
+            <rect class="die-body" x="6" y="6" width="108" height="108" rx="24" />
+            <circle cx="34" cy="34" r="10" /><circle cx="60" cy="34" r="10" /><circle cx="86" cy="34" r="10" />
+            <circle cx="34" cy="60" r="10" /><circle cx="60" cy="60" r="10" /><circle cx="86" cy="60" r="10" />
+            <circle cx="34" cy="86" r="10" /><circle cx="60" cy="86" r="10" /><circle cx="86" cy="86" r="10" />
+          </svg>
+          <div>
+            <div class="field">
+              <label for="mic-select">Microphone</label>
+              <select id="mic-select" disabled>
+                <option value="">Turn on your mic first</option>
+              </select>
+            </div>
+            <button class="btn btn-quiet btn-small" id="mic-btn" type="button">Turn on mic</button>
+            <p class="readout-note" id="mic-note">The die shows your level. Aim for 4 or 5 pips when you talk.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="onair-name">Your name on air</label>
+          <input type="text" id="onair-name" maxlength="40" placeholder="Jordan" autocomplete="nickname" />
+          <small>Listeners see this while you're live.</small>
+        </div>
+
+        <label class="check">
+          <input type="checkbox" id="opt-live" checked />
+          <span>Broadcast live<small>Anyone on your listener page can tune in.</small></span>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="opt-record" checked />
+          <span
+            >Record an episode<small
+              >Saves an MP3 you can publish to Spotify. Co-hosts who join from another computer should turn this off,
+              so only one person records. Their voices still end up in your recording.</small
+            ></span
+          >
+        </label>
+
+        <div class="show-controls">
+          <button class="btn btn-big" id="show-btn" type="button">Start show</button>
+          <div class="readout" id="readout" hidden>
+            <span class="clock" id="clock" role="timer" aria-label="Show length">0:00</span>
+            <span class="pill pill-live" id="pill-live" hidden>On air</span>
+            <span class="pill pill-rec" id="pill-rec" hidden>Recording</span>
+            <span class="readout-note" id="readout-note"></span>
+          </div>
+          <p class="notice error" id="console-error" role="alert" hidden></p>
+        </div>
+      </section>
+
+      <div style="display: grid; gap: 1.25rem; min-width: 0">
+        <section class="panel" id="publish-panel" aria-labelledby="publish-heading" hidden>
+          <h2 id="publish-heading">Publish episode</h2>
+          <p class="panel-intro">
+            Listen back, add the details, then publish. It goes into your feed right away, and Spotify picks it up
+            within a few hours.
+          </p>
+          <div class="preview">
+            <audio id="preview" controls preload="metadata"></audio>
+            <p class="preview-meta" id="preview-meta"></p>
+          </div>
+          <form id="publish-form" novalidate>
+            <div class="field">
+              <label for="ep-title">Title</label>
+              <input type="text" id="ep-title" maxlength="200" required />
+            </div>
+            <div class="field">
+              <label for="ep-desc">Description</label>
+              <textarea id="ep-desc" maxlength="4000"></textarea>
+              <small>Shown on Spotify under the episode. Leave a blank line between paragraphs.</small>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="ep-number">Episode number</label>
+                <input type="number" id="ep-number" min="0" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for="ep-season">Season <small>(optional)</small></label>
+                <input type="number" id="ep-season" min="0" step="1" inputmode="numeric" />
+              </div>
+            </div>
+            <label class="check">
+              <input type="checkbox" id="ep-explicit" />
+              <span>Explicit language<small>Spotify marks the episode with an "E".</small></span>
+            </label>
+            <div class="actions">
+              <button class="btn" type="submit" id="publish-btn">Publish episode</button>
+              <button class="btn btn-quiet" type="button" id="download-btn">Download MP3</button>
+              <button class="btn btn-quiet" type="button" id="discard-btn">Discard</button>
+            </div>
+            <div class="progress" id="progress" hidden><span></span></div>
+            <p class="notice" id="publish-msg" role="status" hidden></p>
+          </form>
+        </section>
+
+        <section class="panel" aria-labelledby="spotify-heading">
+          <h2 id="spotify-heading">Spotify</h2>
+          <p class="panel-intro">
+            Submit this feed link once at Spotify for Creators. After that, new episodes show up there on their own.
+          </p>
+          <div class="feed-box">
+            <input type="text" id="feed-url" readonly aria-label="Your RSS feed link" />
+            <button class="btn btn-quiet btn-small" id="copy-feed" type="button">Copy</button>
+          </div>
+          <p class="readout-note" id="feed-note" style="margin-top: 0.6rem">
+            Spotify needs at least one published episode before you submit the feed.
+          </p>
+        </section>
+
+        <section class="panel" aria-labelledby="library-heading">
+          <h2 id="library-heading">Episodes</h2>
+          <p class="panel-intro">Removing an episode takes it out of your feed. Spotify drops it on its next check.</p>
+          <p class="notice" id="library-msg" role="status" hidden></p>
+          <ul class="library" id="library"></ul>
+          <div class="field file-pick" style="margin: 1.25rem 0 0">
+            <label for="file-input">Publish an audio file instead</label>
+            <input type="file" id="file-input" accept=".mp3,.m4a,audio/mpeg,audio/mp4,audio/x-m4a" />
+            <small id="file-note">MP3 or M4A recorded somewhere else, up to 50 MB.</small>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="remote-audio" hidden></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/livekit-client@2.22.4/dist/livekit-client.umd.js" defer></script>
+    <script type="module" src="/js/studio.js"></script>
+  </body>
+</html>
